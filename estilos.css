@@ -1,0 +1,75 @@
+*{
+    box-sizing: border-box;
+   
+}
+
+.color{
+    background-color: white;
+}
+body{
+    background:linear-gradient( rgb(206, 203, 203),rgb(216, 212, 212));
+    height: 100vh
+}
+.con-tablero{
+    width: 560px;
+    height: 560px;
+    margin: 40px auto;
+    box-shadow: 0px 0px 6px 8px  rgb(255, 255, 255),
+                0px 0px 0px 16px rgb(53, 47, 47);
+    box-sizing: content-box;
+    cursor: pointer;
+    border: 1px solid black
+    
+    
+}   
+.con-tablero .tab-fila{
+    display: flex;
+}
+/*definimos estilo para cada cuadrito*/
+
+.con-tablero .tab-fila .tab-col{
+    background-color: rgb(255, 255, 255);
+    width: 70px ;
+    height: 70px;
+    text-align: center;
+    user-select: none;
+    font-size: 55px;
+    color:  rgb(255, 255, 255);
+    text-shadow: 0px .5px rgb(255, 255, 255);
+}
+
+.con-tablero .tab-fila .black{
+    background-color:  rgb(0, 0, 0);
+
+}
+.nav{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(247, 247, 244);
+    justify-content: start;
+    padding-bottom: 10px;
+}
+.nav a{
+    color: rgb(0, 0, 0);
+
+}
+.PieDePagina{
+    background-color: rgb(230, 225, 225);
+    display: block;
+    border: 1px solid black;
+    padding: 2px;
+    margin-bottom: 3px;
+}
+
+.Boton{
+    color: rgb(255, 255, 255);
+    background-color: royalblue;
+    width: 100px;
+    height: 50px;
+    font: bold 14px verdana;
+}
+.p1{
+    font-family: Arial;
+    font-size: 20px;  
+}
+
