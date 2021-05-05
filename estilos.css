@@ -9,7 +9,7 @@
 }
 
 .color{
-    background-color: white;
+    background-color: rgb(112, 86, 228);
 }
 body{
     font: 15px/1.5 Arial, Helvetica,sans-serif;
@@ -21,7 +21,7 @@ body{
   header{
     width: 100%;
     padding: 20px;
-    background-color: rgb(207, 101, 13);
+    background-color: rgb(112, 86, 228);
     
     display: flex;
     justify-content: space-between;
@@ -97,7 +97,7 @@ nav a:hover{
 
   #boton-empezar-partida {
     color: white;
-    background-color:  rgb(77, 46, 216);
+    background-color:  rgb(112, 86, 228);
     border-radius: 10px;
     width: 225px;
     height: 52px;
@@ -105,7 +105,7 @@ nav a:hover{
     font-family: Arial;
     text-shadow: 0 0 3px #333333;
     border: 1px solid #84c5f3;
-    background-image:  rgb(77, 46, 216);
+    background-image:  rgb(112, 86, 228);
     box-shadow: 0 0 8px 1px #888888;
     font-size: 21px;
     cursor: pointer;
@@ -113,7 +113,7 @@ nav a:hover{
 footer{
     padding: 8px;
     text-align: center;
-    background-color:  rgb(207, 101, 13);
+    background-color:  rgb(112, 86, 228);
     font-family: Arial, Helvetica, sans-serif;
     
 }
@@ -123,7 +123,14 @@ footer{
     justify-content: center;
     
 }
-
+.contenedor-marcador1{
+    display: flex;
+    border: none;
+    justify-content: center;
+    
+    
+    
+}
 .contenedor-marcador div{
     
     width: 50px;
@@ -132,10 +139,19 @@ footer{
     line-height: 65px;
     font-size: 30px;
     border: 2px solid black;
+  
 }
-
+.contenedor-marcador1 div{
+    
+    width: 50px;
+    margin: none;
+    text-align: center;
+    line-height: 65px;
+    font-size: 30px;
+    border: 2px solid black;
+}
 .player{
-    background-color:  rgb(207, 101, 13);
+    background-color:  rgb(112, 86, 228);
 }
 .divisor-tablero{
     background-color: black;
