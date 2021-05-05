@@ -1,73 +1,80 @@
 *{
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-   
+}
+
+.contenedor{
+    flex-flow: row wrap;
 }
 
 .color{
     background-color: white;
 }
 body{
-    background:linear-gradient( rgb(206, 203, 203),rgb(216, 212, 212));
-    height: 100vh
-}
-header{
-    background : #2863d8 ;
+    font: 15px/1.5 Arial, Helvetica,sans-serif;
+    padding:0;
+    margin:0;
+    background-color:#f4f4f4;
+  }
+
+  header{
     width: 100%;
     padding: 20px;
+    background-color: rgb(207, 101, 13);
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: Arial;
-    font-size: 20px;  
-    flex-flow: row wrap;
     flex-direction: row;
+    flex-wrap: wrap;
 }
-header .Logotipo{
-    color: #fff;
+
+header .logo{
+    color: white;
     font-size: 30px;
 }
-header .Logotipo .a{
-    color: #fff;
+header .logo a{
+    color: white;
     text-decoration: none;
-    line-height: 50px;
 }
-header .Logotipo .img{
+header .logo img{
     width: 50px;
     vertical-align: top;
-
+    line-height: 50px;
 }
-header nav{
-    width: 10%;
-    background: #fff;
+
+nav{
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-header nav a{
-    background: #C0393B;
-    color:  #FFF;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px;
+    flex-direction: row;
+    background-color: #333;
 
+}
+
+nav a{
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    
+}
+nav a:hover{
+    background: black;
 }
 
 .con-tablero{
     width: 560px;
     height: 560px;
     margin: 40px auto;
-    box-shadow: 0px 0px 6px 8px  rgb(255, 255, 255),
-                0px 0px 0px 16px rgb(53, 47, 47);
+    border-style: none;
     box-sizing: content-box;
     cursor: pointer;
     border: 1px solid black
-    
     
 }   
 .con-tablero .tab-fila{
     display: flex;
 }
-/*definimos estilo para cada cuadrito*/
+
 
 .con-tablero .tab-fila .tab-col{
     background-color: rgb(255, 255, 255);
@@ -79,55 +86,62 @@ header nav a{
     color:  rgb(255, 255, 255);
     text-shadow: 0px .5px rgb(255, 255, 255);
 }
-/*
-div.con-tablero.tab-fila:hover{
-background: #2dce14;
-}
-*/
+
 .con-tablero .tab-fila .black{
     background-color:  rgb(0, 0, 0);
-
 }
-.nav{
+#partidanueva {
     display: flex;
-    flex-direction: row;
-    background-color: rgb(247, 247, 244);
-    justify-content: start;
-    padding-bottom: 10px;
+    justify-content: center;
 }
-.nav a{
-    color: rgb(0, 0, 0);
 
+  #boton-empezar-partida {
+    color: white;
+    background-color:  rgb(77, 46, 216);
+    border-radius: 10px;
+    width: 225px;
+    height: 52px;
+    margin-top: 20px;
+    font-family: Arial;
+    text-shadow: 0 0 3px #333333;
+    border: 1px solid #84c5f3;
+    background-image:  rgb(77, 46, 216);
+    box-shadow: 0 0 8px 1px #888888;
+    font-size: 21px;
+    cursor: pointer;
 }
-.PieDePagina{
-    background: #2863d8;
-    width: 100%;
-    padding: 20px;
+footer{
+    padding: 8px;
+    text-align: center;
+    background-color:  rgb(207, 101, 13);
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+.contenedor-marcador{
+    display: flex;
+    border: none;
+    justify-content: center;
     
 }
 
-.Boton{
-    color: rgb(255, 255, 255);
-    background-color: rgb(86, 104, 108);
-    width: 100px;
-    height: 50px;
-    font: bold 14px verdana;
-}
-.p1{
-    font-family: Arial;
-    font-size: 20px;  
-    color: #fff;
-    text-decoration: none;
-    line-height: 50px;
-}
-.PieDePagina .a{
+.contenedor-marcador div{
     
-    font-family: Arial;
-    font-size: 20px;  
-    color: #fff;
-    text-decoration: none;
-    line-height: 50px;
-
+    width: 50px;
+    margin: none;
+    text-align: center;
+    line-height: 65px;
+    font-size: 30px;
+    border: 2px solid black;
 }
 
-
+.player{
+    background-color:  rgb(207, 101, 13);
+}
+.divisor-tablero{
+    background-color: black;
+}
+@media screen and (max-width: 500px){
+    nav, .row{
+        flex-direction: column;
+    }
+}

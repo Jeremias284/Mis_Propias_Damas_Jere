@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+    <div class="contenedor">
+
+    
 <header>
-    <div class="Logotipo">
-        <H1>Juego De Damas</H1>
+    <div class="logo">
+        <a href="#">Juego de Damas</a>
         <img src="piezaRoja.png"alt="jaja">
         <img src="piezaBlanca.png" alt="jaja">
     </div>
@@ -18,7 +21,6 @@
         <a href="http://127.0.0.1:5502/index.html">Iniciar Sesion / Registrarse</a>
     </nav>
 </header>
-   
 
     <div class="con-tablero">
       
@@ -118,18 +120,23 @@
                     <div class="tab-col "></div>       
                  </div>
             </div>
-   
+            <div class="contenedor-marcador">
+                <div class="player">P1</div>
+                <div>0</div>
+                <div class="divisor-tablero"></div>
+                <div>0</div>
+                <div class="player">P2</div>
+            </div>
+            
+            <div id="partidanueva">
+                <button id="boton-empezar-partida">Nueva partida</button>
+            </div>
+            <br>
 
-    <center>
-        <button class="Boton" type="button" onclick="alert('Juego de Mini Damas Creado Por Jeremias Calzada!')">Nueva Partida</button>
-    </center>
-    <aside class="PieDePagina">
-        <blockquote>
-           <div>
-           <p class="p1">Jeremias.S.Calzada</p>
-           <a href="https://es.wikipedia.org/wiki/Damas">Reglamento del Juego</a>
-       </div>
-        </blockquote>
-       </aside>
+            <footer>
+                <p>Reglamento: <a href="https://www.mundijuegos.com.ar/multijugador/damas/reglas/">Reglas del juego</a> //  Ivan Kopech, 2021</p>
+                
+            </footer>
+    </div>
 </body>
 </html>
