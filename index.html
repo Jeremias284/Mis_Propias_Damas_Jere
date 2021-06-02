@@ -13,41 +13,52 @@
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.png" type="image/x-icon">
-  
-</head>
-    
 </head>
 <body>
-<header>
-    <div class="logo">
-        <a href="#">Juego de Damas</a>
-        <img src="piezaRoja.png"alt="jaja">
-        <img src="piezaBlanca.png" alt="jaja">
-    </div>
-    <nav>
-        <a href="http://127.0.0.1:5502/index.html">Iniciar Sesion / Registrarse</a>
-    </nav>
-</header>
-<div class="column">
-    <div id="board">
-      <div class="tiles"></div>
-      <div class="pieces">
-        <div class="player1pieces">
-        </div>
-        <div class="player2pieces">
-        </div>
-      </div>
-  </div>
+
     <div class="contenedor">
-            <div class="contenedor-marcador">
-                <div class="Jugador1">P1</div>
-                <div>0</div>
-               
+        <header>
+            <div class="logo">
+                <a href="#">Juego de Damas</a>
+                <img src="piezaRoja.png"alt="jaja">
+                <img src="piezaBlanca.png" alt="jaja">
             </div>
-            <div class="contenedor-marcador1">
-                <div class="Jugador2">P2</div>
-                <div>0</div>
+            <nav>
+                <a href="http://127.0.0.1:5502/index.html">Iniciar Sesion / Registrarse</a>
+            </nav>
+        </header>
+            <div id="board">
+              <div class="tiles"></div>
+              <div class="pieces">
+                <div class="player1pieces">
+                </div>
+                <div class="player2pieces">
+                </div>
+              </div>
+          </div>
+        </div>
+            <div class="Contenedor-Juego">
+                <div class="Jugadores">
+                    
+                    <div class="Jugador1">
+                        <p id="Nombre-Jugador-1">Jugador Rojo </p>
+                        <p id="Resultado-Jugador-1">Resultado: 5</p>
+                        <p class="Tiempo-Jugador-1">00:00</p>
+                    </div>
+                    <div id="Turno" class="Turno-Pieza"><p>Turno</p><div></div></div>
+
+                    <div class="Jugador2">
+                        <p id="Nombre-Jugador-2">Jugador Azul </p>
+                        <p id="Resultado-Jugador-2">Resutado: 4</p>
+                        <p class="Tiempo-Jugador-2  ">00:00</p>
+                    </div> 
+                </div>
+              </div>
+            <br>
+            <div id="chessContainer">
             </div>
+            <br>
+            <br>
             <div id="partidanueva">
                 <button id="boton-empezar-partida">Nueva partida</button>
             </div>
