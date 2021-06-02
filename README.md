@@ -5,7 +5,7 @@ Version libre de un Juego de Damas que intenta aplicar todo lo aprendido en clas
 
 - HTML 
 - CSS
-- Flexbox
+- Java Script
 
 ## Ver Online
 Este proyecto se encuentra en: https://jeremias284.github.io/Mis-Propio-Juego-De-Damas/
