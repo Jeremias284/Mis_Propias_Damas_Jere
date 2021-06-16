@@ -1,359 +1,422 @@
-//creando el tablero
-document.querySelector('.game').innerHTML = "<table></table>"
-var cont_c =0
-for (var i=0;i<8;i++) {
-    var t = "<td></td>"
-    var tw = "<td class='white'></td>"
-    var tbody = document.querySelector("tbody")
-    if(tbody == null) document.querySelector("table").innerHTML='<tr>'+tw+t+tw+t+tw+t+tw+t+'</tr>'
-    else{
-        if(Math.floor(i/8)%2 == i%2){
-            tbody.innerHTML +='<tr>'+tw+t+tw+t+tw+t+tw+t+'</tr>'
-        }else{
-            tbody.innerHTML +='<tr>'+t+tw+t+tw+t+tw+t+tw+'</tr>'
-        }        
-    }
-}
+// VARIABLES GLOBALES
 
-//creando fichas
-var table = document.querySelector("table");
-var c = 0;
-for (var i = 0, row; row = table.rows[i]; i++) {
-   if(i<3 || i>4){
-    for (var j = 0, col; col = row.cells[j]; j++) {
-        if(row.cells[j].classList[0]!='white'){
-         if(i<3) row.cells[j].innerHTML = '<div class="ficha-naranja" id="'+c+'"></div>';
-         else row.cells[j].innerHTML = '<div class="ficha-azul" id="'+c+'"></div>';
-          c++
-        }
-    }  
-   }
-}
-
-var tablero = [
-    null, 0, null, 1, null, 2, null, 3,
-    4, null, 5, null, 6, null, 7, null,
-    null, 8, null, 9, null, 10, null, 11,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    12, null, 13, null, 14, null, 15, null,
-    null, 16, null, 17, null, 18, null, 19,
-    20, null, 21, null, 22, null, 23, null
-]
-
-var encontrarFicha = function(id){
-    var n = parseInt(id)
-    return tablero.indexOf(n)
-}
-const cells = document.querySelectorAll("td")
-var fichasNaranjas = document.querySelectorAll(".ficha-naranja")
-var fichasAzules = document.querySelectorAll(".ficha-azul")
-var turnoText = document.querySelector(".turn")
-var turno = true
-var naranjasR = 12
-var azulesR = 12
-var fichas
+var quitarEvento = false
+var contadorClicks = 0
+var turno = 1
+var FichasArriba = document.getElementsByClassName('DamasArriba')
+var FichasAbajo = document.getElementsByClassName('DamasAbajo')
+var jugador1 = document.getElementById('jugador1');
+var jugador2 = document.getElementById('jugador2');
 
 var fichaSeleccionada = {
-    id: -1,
-    indice: -1,
-    esRey: false,
-    movSiete: false,
-    movNueve: false,
-    movCatorce: false,
-    movDieciocho: false,
-    movMenosSiete: false,
-    movMenosNueve: false,
-    movMenosCatorce: false,
-    movMenosDieciocho: false
+  idFila: null,
+  idColumna: null,
+  esRey: false,
+  moverIzquierda: false,
+  moverDerecha: false,
+  moverComerIzquierda: false,
+  moverComerDerecha: false,
+  moverPintarIzquierda: null,
+  moverPintarDerecha: null,
+  moverComerDerechaPintado: null,
+  moverComerIzquierdaPintado: null,
+  moverFilaPintar: null,
+  moverFilaComerPintado: null,
 }
 
-function añadirListener(){
-    if(turno){
-        for(var i=0;i<fichasNaranjas.length;i++){
-            fichasNaranjas[i].addEventListener("click",obtenerFichas)
+// Tablero
+var ArregloDelTablero = [
+  [null, 1, null, 1, null, 1, null, 1],
+  [1, null, 1, null, 1, null, 1, null],
+  [null, 1, null, 1, null, 1, null, 1],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  [2, null, 2, null, 2, null, 2, null],
+  [null, 2, null, 2, null, 2, null, 2],
+  [2, null, 2, null, 2, null, 2, null],
+]
+
+
+function crearTablero() {
+  var Tablero = document.getElementById('Tablero')
+
+  var contador = 0
+
+  for (let i = 0; i < ArregloDelTablero.length; i++) {
+    var newDivFila = document.createElement('div')
+    newDivFila.className = 'Fila Fila-' + i
+    Tablero.appendChild(newDivFila)
+
+    contador = i % 2
+
+    for (let j = 0; j < ArregloDelTablero[i].length; j++) {
+      var newDivCell = document.createElement('div')
+
+      if (contador === 0) {
+        newDivCell.className = 'casillasBlancas'
+        contador++
+      } else {
+        newDivCell.className = 'casillasNegras'
+        contador--
+      }
+
+      newDivCell.id = 'Fila-' + i + '-col-' + j
+      newDivFila.appendChild(newDivCell)
+    }
+  }
+}
+crearTablero()
+
+function crearDamas() {
+  for (let i = 0; i < ArregloDelTablero.length; i++) {
+    for (let k = 0; k < ArregloDelTablero[i].length; k++) {
+      var DivCelda = document.getElementById('Fila-' + i + '-col-' + k)
+
+      if (ArregloDelTablero[i][k] === 1) {
+        var NewDama = document.createElement('div')
+        NewDama.className = 'DamasArriba'
+        DivCelda.appendChild(NewDama)
+      } else {
+        if (ArregloDelTablero[i][k] === 2) {
+          var NewDama = document.createElement('div')
+          NewDama.className = 'DamasAbajo'
+          DivCelda.appendChild(NewDama)
         }
+      }
+    }
+  }
+}
+crearDamas()
+
+function agregarEvento() {
+  if (turno === 1) {
+    for (var i = 0; i < FichasArriba.length; i++) {
+      FichasArriba[i].addEventListener('click', obtenerFichaSeleccionada)
+    }
+  } else {
+    for (var i = 0; i < FichasAbajo.length; i++) {
+      FichasAbajo[i].addEventListener('click', obtenerFichaSeleccionada)
+    }
+  }
+}
+
+function obtenerFichaSeleccionada(ev) {
+  fichaSeleccionada.idFila = parseInt(ev.path[1].id.substring(5, 6))
+  fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
+
+ 
+  buscarEspaciosDisponibles(
+    fichaSeleccionada.idFila,
+    fichaSeleccionada.idColumna,
+  )
+}
+
+
+
+function buscarEspaciosDisponibles(Fila, columna) {
+
+  if (contadorClicks > 0) {
+    EliminarEspaciosPosibles()
+  }
+  contadorClicks++
+
+  fichaSeleccionada.moverPintarIzquierda = columna - 1
+  fichaSeleccionada.moverPintarDerecha = columna + 1
+
+  if (turno === 1) {
+    fichaSeleccionada.moverFilaPintar = Fila + 1
+  } else {
+    fichaSeleccionada.moverFilaPintar = Fila - 1
+  }
+
+  // validar Filas 
+  if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7) {
+    
+    if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === null) {
+      fichaSeleccionada.moverDerecha = true
+  
+      var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarDerecha)
+      divPintar.style.backgroundColor = 'gray'
+    }
+   
+    if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === null) {
+      fichaSeleccionada.moverIzquierda = true
+      
+      var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarIzquierda)
+      divPintar.style.backgroundColor = 'gray'
+  
+    }
+  }
+
+  comprobarComer()
+}
+
+function comprobarComer() {
+  fichaSeleccionada.moverComerDerechaPintado = fichaSeleccionada.moverPintarDerecha + 1
+  fichaSeleccionada.moverComerIzquierdaPintado = fichaSeleccionada.moverPintarIzquierda - 1
+
+  if (turno === 1) {
+    if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7) { 
+      fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar + 1
+      if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === 2 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerDerechaPintado] === null) {
+
+        fichaSeleccionada.moverComerDerecha = true
+        
+        var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
+        divPintar.style.backgroundColor = 'gray'
+      }
+      if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === 2 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerIzquierdaPintado] === null) {
+
+        fichaSeleccionada.moverComerIzquierda = true
+        
+        var divPintar = document.getElementById('Fila-' +  fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerIzquierdaPintado)
+        divPintar.style.backgroundColor = 'gray'
+      }
+    }  
+    
+  } else {
+    if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7)  {
+      fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar - 1
+
+      if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === 1 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerDerechaPintado] === null) {
+
+        fichaSeleccionada.moverComerDerecha = true
+        
+        var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
+        divPintar.style.backgroundColor = 'gray'
+      }
+      if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === 1 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerIzquierdaPintado] === null) {
+
+        fichaSeleccionada.moverComerIzquierda = true
+        
+        var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
+        divPintar.style.backgroundColor = 'gray'
+      }
+    } 
+  }
+  agregarClickPosiblesMov()
+}
+
+
+  function agregarClickPosiblesMov() {
+    
+    if (fichaSeleccionada.moverIzquierda) {
+      var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' + fichaSeleccionada.moverPintarIzquierda)
+      divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaPintar, fichaSeleccionada.moverPintarIzquierda, "")')
+    }
+    if (fichaSeleccionada.moverDerecha) {
+      var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' + fichaSeleccionada.moverPintarDerecha)
+      divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaPintar, fichaSeleccionada.moverPintarDerecha, "")')
+    }
+    if (fichaSeleccionada.moverComerDerecha) {
+      var divMover = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerDerechaPintado)
+      divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaComerPintado, fichaSeleccionada.moverComerDerechaPintado, "derecha")')
+    }
+    if (fichaSeleccionada.moverComerIzquierda) {
+      var divMover = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
+      divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaComerPintado, fichaSeleccionada.moverComerIzquierdaPintado, "izquierda")')
+    }
+  } 
+  
+function EliminarEspaciosPosibles() {
+  if (fichaSeleccionada.moverDerecha) {
+    var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarDerecha)
+    divPintar.style.backgroundColor = 'black'
+  }
+   
+  if (fichaSeleccionada.moverIzquierda) {
+    divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarIzquierda)
+    divPintar.style.backgroundColor = 'black' 
+  }
+  
+  if (turno === 1) {
+      fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar + 1
+
+    if (fichaSeleccionada.moverComerDerecha) {
+      divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
+      divPintar.style.backgroundColor = 'black'
+    }
+    if (fichaSeleccionada.moverComerIzquierda) {
+          divPintar = document.getElementById('Fila-' +  fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerIzquierdaPintado)
+          divPintar.style.backgroundColor = 'black'
+    }
+
+  } else {
+      fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar - 1
+    if (fichaSeleccionada.moverComerDerecha) {
+      divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
+      divPintar.style.backgroundColor = 'black'
+    }
+    if (fichaSeleccionada.moverComerIzquierda) {
+      divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
+      divPintar.style.backgroundColor = 'black'
+    }
+    
+}
+  quitarEvento = true
+  quitarEventosClickPosibles()
+  resetearObjeto()
+}
+
+
+function moverFicha(FilaMover, columnaMover, tipoComer) {
+
+  //CREACION DE LA NUEVA FICHA
+  var divPadre = document.getElementById('Fila-' + FilaMover +'-col-' + columnaMover)
+
+  var newDama = document.createElement('div')
+
+  if (turno === 1) {
+    newDama.className = 'DamasArriba'
+    ArregloDelTablero[FilaMover][columnaMover] = 1;
+  } else {
+    newDama.className = 'DamasAbajo'
+    ArregloDelTablero[FilaMover][columnaMover] = 2;
+  }
+  divPadre.appendChild(newDama)
+ 
+  //ELIMINACION DE LA FICHA ANTIGUA
+  var divViejo = document.getElementById('Fila-' + fichaSeleccionada.idFila +'-col-' +  fichaSeleccionada.idColumna)
+  divViejo.innerHTML = ''
+  ArregloDelTablero[fichaSeleccionada.idFila][fichaSeleccionada.idColumna] = null;
+
+  //ELIMINACION DE LA FICHA DEL USUARIO CONTRARIO SI LO COME
+  if (tipoComer == 'izquierda') {
+    if (turno === 1) {
+      var divEnemigoElimanado = document.getElementById('Fila-' + (fichaSeleccionada.idFila + 1)  +'-col-' +  (fichaSeleccionada.idColumna -1))
+      divEnemigoElimanado.innerHTML = ''
+      ArregloDelTablero[fichaSeleccionada.idFila + 1][fichaSeleccionada.idColumna - 1] = null
     }else{
-        for(var i=0;i<fichasAzules.length;i++){
-            fichasAzules[i].addEventListener("click",obtenerFichas)
-        }
+      var divEnemigoElimanado = document.getElementById('Fila-' + (fichaSeleccionada.idFila - 1)  +'-col-' +  (fichaSeleccionada.idColumna -1))
+      divEnemigoElimanado.innerHTML = ''
+      ArregloDelTablero[fichaSeleccionada.idFila - 1][fichaSeleccionada.idColumna - 1] = null
     }
-}
-
-function obtenerFichas(){
-    if(turno){
-        fichas = fichasNaranjas
+  }
+  if (tipoComer == 'derecha') {
+    if (turno === 1) {
+      var divEnemigoElimanado = document.getElementById('Fila-' + (fichaSeleccionada.idFila + 1)  +'-col-' +  (fichaSeleccionada.idColumna +1))
+      divEnemigoElimanado.innerHTML = ''
+      ArregloDelTablero[fichaSeleccionada.idFila + 1][fichaSeleccionada.idColumna + 1] = null
     }else{
-        fichas = fichasAzules
+      var divEnemigoElimanado = document.getElementById('Fila-' + (fichaSeleccionada.idFila - 1)  +'-col-' +  (fichaSeleccionada.idColumna +1))
+      divEnemigoElimanado.innerHTML = ''
+      ArregloDelTablero[fichaSeleccionada.idFila - 1][fichaSeleccionada.idColumna + 1] = null
     }
-    eliminarOnclick()
-    resetearBordes()
+  }
+
+  //VUELTA A SU COLOR ORIGINAL DE LAS CASILLAS
+  var FilaTurno = 0
+  if (turno == 1) {
+    FilaTurno = 1
+  } else{
+    FilaTurno = -1
+  }
+
+  if (fichaSeleccionada.moverIzquierda) {
+    var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarIzquierda)
+    divPintar.style.backgroundColor = 'black'
+  }
+  if (fichaSeleccionada.moverDerecha) {
+    var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarDerecha)
+    divPintar.style.backgroundColor = 'black'
+  }
+  if (fichaSeleccionada.moverComerDerecha) {
+    var divPintar = document.getElementById('Fila-' + (fichaSeleccionada.moverFilaPintar + FilaTurno ) + '-col-' +fichaSeleccionada.moverComerDerechaPintado)
+    divPintar.style.backgroundColor = 'black'
+  }
+  if (fichaSeleccionada.moverComerIzquierda) {
+    var divPintar = document.getElementById('Fila-' + (fichaSeleccionada.moverFilaPintar + FilaTurno) + '-col-' +fichaSeleccionada.moverComerIzquierdaPintado)
+    divPintar.style.backgroundColor = 'black'
+  }
+
+  quitarEventosClickPosibles()
 }
 
-function eliminarOnclick(){
-    for(var i=0;i<cells.length;i++){
-        cells[i].removeAttribute("onclick");
-    }
+function quitarEventosClickPosibles(){
+  if (fichaSeleccionada.moverIzquierda) {
+     var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' + fichaSeleccionada.moverPintarIzquierda)
+     divMover.removeAttribute('onclick')
+  }
+  if (fichaSeleccionada.moverDerecha) {
+    var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' + fichaSeleccionada.moverPintarDerecha)
+    divMover.removeAttribute('onclick')
+  }
+  if (fichaSeleccionada.moverComerDerecha) {
+     var divMover = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado  +'-col-' + fichaSeleccionada.moverComerDerechaPintado)
+     divMover.removeAttribute('onclick')
+  }
+  if (fichaSeleccionada.moverComerIzquierda) {
+    var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
+    divMover.removeAttribute('onclick')
+  }
+
+  if (quitarEvento == false) {
+  quitarEventosClicks()
+  }
 }
 
-function resetearBordes(){
-    for(var i=0;i<fichas.length;i++){
-        fichas[i].style.border = "2px solid aquamarine"
+function quitarEventosClicks() {
+ if (turno === 1) {
+    for (var i = 0; i < FichasArriba.length; i++) {
+      FichasArriba[i].removeEventListener('click', obtenerFichaSeleccionada)
     }
-    resetearFichasSeleccionadas()
-    obtenerFichasSeleccionadas()
+  } else {
+    for (var i = 0; i < FichasAbajo.length; i++) {
+      FichasAbajo[i].removeEventListener('click', obtenerFichaSeleccionada)
+    }
+  }
+  actualizarPuntos()
 }
 
-function resetearFichasSeleccionadas(){
-    fichaSeleccionada.id = -1
-    fichaSeleccionada.indice = -1
-    fichaSeleccionada.esRey = false
-    fichaSeleccionada.movSiete = false
-    fichaSeleccionada.movNueve = false
-    fichaSeleccionada.movCatorce = false
-    fichaSeleccionada.movDieciocho = false
-    fichaSeleccionada.movMenosSiete = false
-    fichaSeleccionada.movMenosNueve = false
-    fichaSeleccionada.movMenosCatorce = false
-    fichaSeleccionada.movMenosDieciocho = false
+function actualizarPuntos() {
+  var parrafoPuntosJugador = null
+
+  if (turno === 1) {
+    parrafoPuntosJugador = document.getElementById('puntos-jugador1')
+    parrafoPuntosJugador.innerHTML = 13 - FichasAbajo.length
+  } else{
+    parrafoPuntosJugador = document.getElementById('puntos-jugador2')
+    parrafoPuntosJugador.innerHTML = 13 - FichasArriba.length
+  }
+  
+  if (FichasArriba.length == 1) {
+    alert('¡¡Felicitaciones jugador verde has ganado la partida!!')
+  }
+ if (FichasAbajo.length == 1) {
+    alert('¡¡Felicitaciones jugador amarillo has ganado la partida!!')
+  }
+
+	cambiarTurno()
 }
 
-function obtenerFichasSeleccionadas(){
-    fichaSeleccionada.id = parseInt(event.target.id)
-    fichaSeleccionada.indice = encontrarFicha(fichaSeleccionada.id)
-    esRey()
+function cambiarTurno(){
+  if (turno === 1) {
+    turno++
+    jugador1.style.boxShadow = 'none'
+    jugador2.style.boxShadow = '0 0 80px Yellow'
+    resetearObjeto()
+  } else{
+    turno--
+    jugador1.style.boxShadow = '0 0 80px Yellow'
+    jugador2.style.boxShadow = 'none' 
+    resetearObjeto()
+  }
 }
 
-function esRey(){
-    if(document.getElementById(fichaSeleccionada.id).classList.contains("rey")){
-        fichaSeleccionada.esRey = true;
-    }else{
-        fichaSeleccionada.esRey = false;
-    }
-    obtenerEspaciosDisponibles()
+function resetearObjeto() {
+    fichaSeleccionada.id = null,
+    fichaSeleccionada.esRey = false,
+    fichaSeleccionada.moverIzquierda = false,
+    fichaSeleccionada.moverDerecha = false,
+    fichaSeleccionada.moverComerIzquierda = false,
+    fichaSeleccionada.moverComerDerecha = false,
+    fichaSeleccionada.moverPintarIzquierda = null,
+    fichaSeleccionada.moverPintarDerecha = null,
+    fichaSeleccionada.moverComerDerechaPintado = null,
+    fichaSeleccionada.moverComerIzquierdaPintado = null,
+    agregarEvento()
+    quitarEvento = false
+    contadorClicks = 0
 }
 
-function obtenerEspaciosDisponibles(){
-    if(tablero[fichaSeleccionada.indice+7]===null &&
-        cells[fichaSeleccionada.indice+7].classList.contains("white")!==true){
-            fichaSeleccionada.movSiete = true
-    }
-    if(tablero[fichaSeleccionada.indice+9]===null &&
-        cells[fichaSeleccionada.indice+9].classList.contains("white")!==true){
-            fichaSeleccionada.movNueve = true
-    }
-    if(tablero[fichaSeleccionada.indice-7]===null &&
-        cells[fichaSeleccionada.indice-7].classList.contains("white")!==true){
-            fichaSeleccionada.movMenosSiete = true
-    }
-    if(tablero[fichaSeleccionada.indice-9]===null &&
-        cells[fichaSeleccionada.indice-9].classList.contains("white")!==true){
-            fichaSeleccionada.movMenosNueve = true
-    }
-    comprobarMatar()
-}
-
-function comprobarMatar(){
-    if (turno) {
-        if (tablero[fichaSeleccionada.indice + 14] === null 
-        && cells[fichaSeleccionada.indice + 14].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice + 7] >= 12) {
-            fichaSeleccionada.movCatorce = true;
-        }
-        if (tablero[fichaSeleccionada.indice + 18] === null 
-        && cells[fichaSeleccionada.indice + 18].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice + 9] >= 12) {
-            fichaSeleccionada.movDieciocho = true;
-        }
-        if (tablero[fichaSeleccionada.indice - 14] === null 
-        && cells[fichaSeleccionada.indice - 14].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice - 7] >= 12) {
-            fichaSeleccionada.movMenosCatorce = true;
-        }
-        if (tablero[fichaSeleccionada.indice - 18] === null 
-        && cells[fichaSeleccionada.indice - 18].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice - 9] >= 12) {
-            fichaSeleccionada.movMenosDieciocho = true;
-        }
-    } else {
-        if (tablero[fichaSeleccionada.indice + 14] === null 
-        && cells[fichaSeleccionada.indice + 14].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice + 7] < 12 && tablero[fichaSeleccionada.indice + 7] !== null) {
-            fichaSeleccionada.movCatorce = true;
-        }
-        if (tablero[fichaSeleccionada.indice + 18] === null 
-        && cells[fichaSeleccionada.indice + 18].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice + 9] < 12 && tablero[fichaSeleccionada.indice + 9] !== null) {
-            fichaSeleccionada.movDieciocho = true;
-        }
-        if (tablero[fichaSeleccionada.indice - 14] === null && cells[fichaSeleccionada.indice - 14].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice - 7] < 12 && tablero[fichaSeleccionada.indice - 7] !== null) {
-            fichaSeleccionada.movMenosCatorce = true;
-        }
-        if (tablero[fichaSeleccionada.indice - 18] === null && cells[fichaSeleccionada.indice - 18].classList.contains("white") !== true
-        && tablero[fichaSeleccionada.indice - 9] < 12 && tablero[fichaSeleccionada.indice - 9] !== null) {
-            fichaSeleccionada.movMenosDieciocho = true;
-        }
-    }
-    chequearCondiciones();
-}
-
-function chequearCondiciones(){
-    if(fichaSeleccionada.esRey){
-        colocarBorde()
-    }else{
-        if(turno){
-            fichaSeleccionada.movMenosSiete = false
-            fichaSeleccionada.movMenosNueve = false
-            fichaSeleccionada.movMenosCatorce = false
-            fichaSeleccionada.movMenosDieciocho = false
-        }else{
-            fichaSeleccionada.movSiete = false
-            fichaSeleccionada.movNueve = false
-            fichaSeleccionada.movCatorce = false
-            fichaSeleccionada.movDieciocho = false
-        }
-        colocarBorde()
-    }
-}
-
-function colocarBorde(){
-    if(fichaSeleccionada.movSiete || fichaSeleccionada.movNueve || fichaSeleccionada.movCatorce || fichaSeleccionada.movDieciocho
-    || fichaSeleccionada.movMenosSiete || fichaSeleccionada.movMenosNueve || fichaSeleccionada.movMenosCatorce || fichaSeleccionada.movMenosDieciocho){
-        document.getElementById(fichaSeleccionada.id).style.border = "4px solid red"
-        colocarOnclik()
-    }
-    else return
-}
-
-function colocarOnclik(){
-    if(fichaSeleccionada.movSiete){
-        cells[fichaSeleccionada.indice+7].setAttribute("onclick","mover(7)")
-    }
-    if(fichaSeleccionada.movNueve){
-        cells[fichaSeleccionada.indice+9].setAttribute("onclick","mover(9)")
-    }
-    if(fichaSeleccionada.movCatorce){
-        cells[fichaSeleccionada.indice+14].setAttribute("onclick","mover(14)")
-    }
-    if(fichaSeleccionada.movDieciocho){
-        cells[fichaSeleccionada.indice+18].setAttribute("onclick","mover(18)")
-    }
-    if(fichaSeleccionada.movMenosSiete){
-        cells[fichaSeleccionada.indice-7].setAttribute("onclick","mover(-7)")
-    }
-    if(fichaSeleccionada.movMenosNueve){
-        cells[fichaSeleccionada.indice-9].setAttribute("onclick","mover(-9)")
-    }
-    if(fichaSeleccionada.movMenosCatorce){
-        cells[fichaSeleccionada.indice-14].setAttribute("onclick","mover(-14)")
-    }
-    if(fichaSeleccionada.movMenosDieciocho){
-        cells[fichaSeleccionada.indice-18].setAttribute("onclick","mover(-18)")
-    }
-}
-
-function mover(n){
-    document.getElementById(fichaSeleccionada.id).remove()
-    cells[fichaSeleccionada.indice].innerHTML = ""
-    if(turno){
-        if(fichaSeleccionada.esRey){
-            cells[fichaSeleccionada.indice+n].innerHTML = `<div class="ficha-naranja rey" id="${fichaSeleccionada.id}"></div>`
-            fichasNaranjas = document.querySelectorAll(".ficha-naranja")
-        }else{
-            cells[fichaSeleccionada.indice+n].innerHTML = `<div class="ficha-naranja" id="${fichaSeleccionada.id}"></div>`
-            fichasNaranjas = document.querySelectorAll(".ficha-naranja")
-        }
-    }else{
-        if(fichaSeleccionada.esRey){
-            cells[fichaSeleccionada.indice+n].innerHTML = `<div class="ficha-azul rey" id="${fichaSeleccionada.id}"></div>`
-            fichasAzules = document.querySelectorAll(".ficha-azul")
-        }else{
-            cells[fichaSeleccionada.indice+n].innerHTML = `<div class="ficha-azul" id="${fichaSeleccionada.id}"></div>`
-            fichasAzules = document.querySelectorAll(".ficha-azul")
-        }
-    }
-    var i = fichaSeleccionada.indice
-    if(n===14||n===-14||n===18||n===-18){
-        cambiarEstado(i,i+n,i+n/2)
-    }else{
-        cambiarEstado(i,i+n)
-    }
-}
-
-function cambiarEstado(indice,mindice,elimficha){
-    tablero[indice] = null;
-    tablero[mindice] = parseInt(fichaSeleccionada.id);
-    if (turno && fichaSeleccionada.id < 12 && mindice >= 56) {
-        document.getElementById(fichaSeleccionada.id).classList.add("rey")
-    }
-    if (turno === false && fichaSeleccionada.id >= 12 && mindice <= 7) {
-        document.getElementById(fichaSeleccionada.id).classList.add("rey")
-    }
-    if (elimficha) {
-        tablero[elimficha] = null;
-        if (turno && fichaSeleccionada.id < 12) {
-            cells[elimficha].innerHTML = ""
-            azulesR--
-        }
-        if (turno === false && fichaSeleccionada.id >= 12) {
-            cells[elimficha].innerHTML = ""
-            naranjasR--
-        }
-    }
-    resetearFichasSeleccionadas()
-    eliminarOnclick()
-    eliminarListener()
-}
-
-function eliminarListener(){
-    if(turno){
-        for(var i=0;i<fichasNaranjas.length;i++){
-            fichasNaranjas[i].removeEventListener("click", obtenerFichas)
-        }
-    }else{
-        for(var i=0;i<fichasAzules.length;i++){
-            fichasAzules[i].removeEventListener("click", obtenerFichas)
-        }
-    }
-    verificarGanador()
-}
-
-var band = false
-function verificarGanador(){
-    if (azulesR === 0) {
-        band = true
-        turnoText.style.display = 'none'
-        turnoText.innerHTML = '¡Naranja es el GANADOR!'
-        setTimeout(esconderText,10)
-    } else if (naranjasR === 0) {
-        band = true
-        turnoText.style.display = 'none'
-        turnoText.innerHTML = '¡Azul es el GANADOR!'
-        setTimeout(esconderText,10)
-    }
-    cambiarTextJugador();
-}
-
-function cambiarTextJugador() {
-    if(band === false){
-        if (turno) {
-            turno = false;
-            turnoText.style.display = 'none'
-            turnoText.innerHTML = "Turno: Azul"
-            setTimeout(esconderText,10)
-        } else {
-            turno = true;
-            turnoText.style.display = 'none'
-            turnoText.innerHTML = "Turno: Naranja"
-            setTimeout(esconderText,10)
-        }
-    }
-    añadirListener();
-}
-
-function esconderText(){
-    turnoText.style.display = 'block'
-}
-
-añadirListener();
+agregarEvento()

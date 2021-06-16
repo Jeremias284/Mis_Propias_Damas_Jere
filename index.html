@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Propio Juego De Damas</title>
-    <link rel="stylesheet" href="estilos.css">
-    <link rel="shortcut icon" href="img/icoKing.ico" type="image/x-icon">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Propias Damas Jere</title>
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"/>
+    <script src="app.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="#">Juego de Damas</a>
-        </div>
-        <nav>
-            <a href="http://127.0.0.1:5503/index.html">Iniciar Sesion / Registrarse</a>
-        </nav>
-      </header>
-      <header class="Header2">  
-        <h1 class="turn">Turno: Naranja</h1>
-     </header>
-     <div class="Contenedor-Juego">
-        <div class="Jugadores">
-            <div class="Jugador1">
-                <p id="Nombre-Jugador-1">Jugador Rojo </p>
-                <br>
-                <p id="Resultado-Jugador-1">Resultado: 5</p>
-                <br>
-                <p class="Tiempo-Jugador-1">00:00</p>
-            </div>
-            <div id="Turno" class="Turno-Pieza"><p>
-                Marcadores:
-                <hr>
-            </p><div></div></div>
-            <div class="Jugador2">
-                <p id="Nombre-Jugador-2">Jugador Azul </p>
-                <br>
-                <p id="Resultado-Jugador-2">Resutado: 4</p>
-                <br>
-                <p class="Tiempo-Jugador-2  ">00:00</p>
-            </div> 
-        </div>
-      </div>
-      <div class="game"></div>
-    
-      <div id="partidanueva">
-        <button id="boton-empezar-partida">Nueva partida</button>
+  <header>
+    <div class="logo">
+        <a href="#">Juego de Damas</a>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-      <footer>
-        <p>Reglamento: <a href="https://www.mundijuegos.com.ar/multijugador/damas/reglas/">Link al Reglamento</a> //Jeremias.S.Calzada//2021</p>
-      </footer>
-      <script src="app.js"></script>
+    <nav>
+        <a href="http://127.0.0.1:5503/index.html">Iniciar Sesion / Registrarse</a>
+    </nav>
+</header>
+<header class="Header2">  
+    <h1 class="turn">Turno: Naranja</h1>
+ </header>
+<br>
+<br>
+<main>
+    <div id="jugador1" class="Contenedor " >
+        <p> Jugador N° 1</p>
+        <p>Resultado</p>
+        <div class="DamasArriba"> </div>
+        <p id="puntos-jugador1" class="puntos">0</p>
+    </div>
+
+    <div id="jugador2" class="Contenedor">
+        <p>Jugador N° 2</p>
+        <p>Resultado</p>
+        <div class="DamasAbajo"> </div>
+        <p id="puntos-jugador2" class="puntos">0</p>
+    </div>
+
+</main>
+
+<main>
+    <div id="Tablero" class="Tablero"></div>
+</main>
+
+<div id="partidanueva">
+    <button id="boton-empezar-partida">Nueva partida</button>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+  <footer>
+    <p>Reglamento: <a href="https://www.mundijuegos.com.ar/multijugador/damas/reglas/">Link al Reglamento</a> //Jeremias.S.Calzada//2021</p>
+  </footer>
+
 </body>
 </html>

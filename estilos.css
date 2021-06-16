@@ -1,88 +1,94 @@
 
-* {
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-  }
-  
-  body {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #1e2183;
-    height: 100%;
-    width: 100%;
-  }
-  @media screen and (max-width: 500px){
-    nav, .row{
-        flex-direction: column;
-    }
+*{  
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	max-width: 100vw;
+	min-height: 100vh;
+	background-color: #371af3;
+	margin: 0;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/*Parte Header */
+header{
+  width: 100%;
+  padding: 20px;
+  background-color: #4643f8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+header .logo{
+  color: white;
+  font-size: 30px;
+}
+
+header .logo a{
+  color: white;
+  text-decoration: none;
+}
+
+header .logo img{
+  width: 50px;
+  vertical-align: top;
+  line-height: 50px;
 }
   
-  .Header2 {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 54px;
-    background-color: #4643f8;
-    text-align: center;
-    padding-top: 12px;
-    color: white;
-  }
+.Header2 {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 54px;
+  background-color: #4643f8;
+  text-align: center;
+  padding-top: 12px;
+  color: white;
+}
+
+header .Header2 .turn {
+  font-size: 35px;
+  animation: flash;
+  animation-duration: 1.5s;
+  justify-content: center;
+}
+
+/*Parte del Nav */
+nav{
+  display: flex;
+  flex-direction: row;
+  background-color: #333;
+
+}
+nav a{
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
   
-  header .Header2 .turn {
-    font-size: 35px;
-    animation: flash;
-    animation-duration: 1.5s;
-    justify-content: center;
+}
+nav a:hover{
+  background: black;
+}
+@media screen and (max-width: 500px){
+  nav, .row{
+      flex-direction: column;
   }
-  
-  .game {
-    position: relative;
-    padding-top: 20px;
-    padding-bottom: 7%;
-  }
-  
-  table {
-    border: 2px solid white;
-    margin: 0px auto;
-  }
-  
-  td {
-    background-color: #222121;
-    width: 70px;
-    height: 70px;
-  }
-  
-  .white {
-    background-color: #f5eded;
-  }
-  
-  .ficha-naranja,
-  .ficha-azul {
-    width: 45px;
-    height: 45px;
-    border: 2px solid aquamarine;
-    border-radius: 50%;
-    margin: 0px auto;
-  }
-  
-  .ficha-naranja {
-    background-color: #ff6600;
-  }
-  
-  .ficha-azul {
-    background-color: #2085f8;
-  }
-  
-  .rey.ficha-naranja {
-    background-color: #490101;
-  }
-  
-  .rey.ficha-azul {
-    background-color: #012e61;
-  }
-  
+}
+
+  /*Parte del Boton */
   button {
     display: inline-block;
     height: 34px;
@@ -92,55 +98,12 @@
     outline: none;
     border: 0;
     text-align: center;
+ 
   }
-  
-  footer {
-    display: inline-block;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 40px;
-    width: 100%;
-    background-color: #4643f8;
-    color: white;
-    text-align: center;
-    padding-top: 20px;
-  }
-  /*Marcadores*/
-.Contenedor-Juego {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 15vh;
-    position: relative;
-    width: 100%;
-    color:white;
-}
-.Contenedor-Juego .Jugadores {
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  
-}
-.Contenedor-Juego .Jugadores .Jugador1, .Contenedor-Juego .Jugadores .Jugador2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-.Contenedor-Juego .Jugadores .Jugador1 .Tiempo-Jugador-1, .Contenedor-Juego .Jugadores .Jugador2 .Tiempo-Jugador-2 {
-    font-size: 3rem;
-    padding: 0.5rem;
-    border: double;
-}
-#partidanueva {
+  #partidanueva {
     display: flex;
     justify-content: center;
-}
-
+  }
   #boton-empezar-partida {
     color: white;
     background-color: rgb(19, 1, 104);
@@ -155,45 +118,162 @@
     box-shadow: 0 0 8px 1px #888888;
     font-size: 21px;
     cursor: pointer;
-}
-header{
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* Footer */
+footer {
+    display: inline-block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 40px;
     width: 100%;
-    padding: 20px;
     background-color: #4643f8;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+ 
+
+/* Tablero */
+
+div.Tablero {
+	display: flex;
+	flex-direction: column;
+	margin: 30px 0 10px 0;
+	border: 4px solid #035e73;
+	border-radius: 2px;
+	box-shadow: 0 0 8px #035e73;
+}
+
+/* Jugadores */
+
+  div.Contenedor {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
+    padding: 2vw;
+    background-color: #4643f8;
+
+}
+.Contenedor p, .Contenedor p {
+	color: #ffffff;
+	margin: 0.3vw;
+}
+@media (max-width: 768px) {
+	main {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	div.Contenedor {
+		margin-left: 0vw;
+		margin-top: 2vh;
+	}	
 }
 
-header .logo{
-    color: white;
-    font-size: 30px;
-}
-header .logo a{
-    color: white;
-    text-decoration: none;
-}
-header .logo img{
-    width: 50px;
-    vertical-align: top;
-    line-height: 50px;
+
+/* Casillas */
+
+div.Fila {
+	display: flex;
+	flex-direction: row;
 }
 
-nav{
+.casillasNegras{
     display: flex;
-    flex-direction: row;
-    background-color: #333;
-
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 5vw;
+    background-color:#000000  ;
 }
 
-nav a{
+.casillasBlancas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 5vw;
+    background-color: #FCFAF9;
+}
+
+.DamasArriba{
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: #ff0000;
+    box-shadow:  0 0 7px #B2945B;
+	border-color:#B2945B ;
+    cursor: pointer;
+}
+
+.DamasAbajo{
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: #00ff51;
+    box-shadow: 0 0 7px #558564;
+	border-color:#558564 ;
+    cursor: pointer;
+}
+@media(max-width: 768px){
+	.casillasNegras, .casillasBlancas{
+        width: 9vw;
+        height: 9vw;
+    }
+}
+
+  /*Parte del Boton */
+button {
+    display: inline-block;
+    height: 34px;
+    width: 180px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    text-align: center;
+ 
+  }
+  #partidanueva {
+    display: flex;
+    justify-content: center;
+  }
+  #boton-empezar-partida {
     color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    
-}
-nav a:hover{
-    background: black;
-}
+    background-color: rgb(19, 1, 104);
+    border-radius: 10px;
+    width: 225px;
+    height: 52px;
+    margin-top: 20px;
+    font-family: Arial;
+    text-shadow: 0 0 3px #333333;
+    border: 1px solid #84c5f3;
+    background-color: rgb(19, 1, 104);
+    box-shadow: 0 0 8px 1px #888888;
+    font-size: 21px;
+    cursor: pointer;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* Footer */
+footer {
+    display: inline-block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    background-color: #4643f8;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+ 
