@@ -48,24 +48,13 @@ header .logo img{
   line-height: 50px;
 }
   
-.Header2 {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 54px;
-  background-color: #4643f8;
-  text-align: center;
-  padding-top: 12px;
-  color: white;
+h2.nombreTurno{
+	display: flex;
+	justify-content: center;
+	animation: flash;
+  	animation-duration: 1.5s;
+    color: white;
 }
-
-header .Header2 .turn {
-  font-size: 35px;
-  animation: flash;
-  animation-duration: 1.5s;
-  justify-content: center;
-}
-
 /*Parte del Nav */
 nav{
   display: flex;

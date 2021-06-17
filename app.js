@@ -7,6 +7,7 @@ var FichasArriba = document.getElementsByClassName('DamasArriba')
 var FichasAbajo = document.getElementsByClassName('DamasAbajo')
 var jugador1 = document.getElementById('jugador1');
 var jugador2 = document.getElementById('jugador2');
+var turnoText = document.querySelector(".nombreTurno");
 
 var fichaSeleccionada = {
   idFila: null,
@@ -392,13 +393,11 @@ function actualizarPuntos() {
 function cambiarTurno(){
   if (turno === 1) {
     turno++
-    jugador1.style.boxShadow = 'none'
-    jugador2.style.boxShadow = '0 0 80px Yellow'
+    turnoText.innerHTML = 'Turno: Verde';
     resetearObjeto()
   } else{
     turno--
-    jugador1.style.boxShadow = '0 0 80px Yellow'
-    jugador2.style.boxShadow = 'none' 
+    turnoText.innerHTML = 'Turno: Rojo' ; 
     resetearObjeto()
   }
 }
