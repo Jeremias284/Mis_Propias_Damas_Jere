@@ -101,15 +101,17 @@ function agregarEvento() {
   }
 }
 
+
 function obtenerFichaSeleccionada(ev) {
   fichaSeleccionada.idFila = parseInt(ev.path[1].id.substring(5, 6))
   fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
 
  
-  buscarEspaciosDisponibles(
-    fichaSeleccionada.idFila,
-    fichaSeleccionada.idColumna,
-  )
+  buscarEspaciosDisponibles(fichaSeleccionada.idFila, fichaSeleccionada.idColumna)
+
+  if (ev.target.classList.contains('rey')) {
+    fichaSeleccionada.esRey = true;
+  }
 }
 
 
@@ -274,6 +276,15 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
     newDama.className = 'DamasAbajo'
     ArregloDelTablero[FilaMover][columnaMover] = 2;
   }
+  if (filaMover == 0 || filaMover == 7) {
+    if (fichaSeleccionada.esRey === false) {
+      newDama.classList.add('rey')
+	  fichaSeleccionada.esRey = true;
+    }
+  }
+  if(fichaSeleccionada.esRey == true){
+	  newDama.innerHTML = '<img src="imagenes/corona.png">'
+  }
   divPadre.appendChild(newDama)
  
   //ELIMINACION DE LA FICHA ANTIGUA
@@ -331,7 +342,29 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
   }
 
   quitarEventosClickPosibles()
+
+  var data = {
+    type: 'Movimiento_Pieza',
+    payload: {
+      Jugador: 'Jugador ' + turno.toString(),
+      from: obtenerFichaSeleccionada,
+      to: fichaSeleccionada.idColumna && fichaSeleccionada.idFila,
+    },
+  };
+  SendDataToServer('https://reqres.in/api/login', data);
+  console.log(data);
+
 }
+// function obtenerFichaSeleccionada(ev) {
+//   fichaSeleccionada.idFila = parseInt(ev.path[1].id.substring(5, 6))
+//   fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
+
+ 
+//   buscarEspaciosDisponibles(
+//     fichaSeleccionada.idFila,
+//     fichaSeleccionada.idColumna,
+//   )
+// }
 
 function quitarEventosClickPosibles(){
   if (fichaSeleccionada.moverIzquierda) {
@@ -381,10 +414,10 @@ function actualizarPuntos() {
   }
   
   if (FichasArriba.length == 1) {
-    alert('¡¡Felicitaciones jugador verde has ganado la partida!!')
+    alert('¡¡Felicitaciones jugador rojo has ganado la partida!!')
   }
  if (FichasAbajo.length == 1) {
-    alert('¡¡Felicitaciones jugador amarillo has ganado la partida!!')
+    alert('¡¡Felicitaciones jugador verde has ganado la partida!!')
   }
 
 	cambiarTurno()
@@ -419,3 +452,23 @@ function resetearObjeto() {
 }
 
 agregarEvento()
+
+
+function SendDataToServer(url, data) {
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (jsonResponse) {
+      console.log(jsonResponse);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
