@@ -1,5 +1,4 @@
 // VARIABLES GLOBALES
-
 var quitarEvento = false
 var contadorClicks = 0
 var turno = 1
@@ -107,11 +106,10 @@ function obtenerFichaSeleccionada(ev) {
   fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
 
  
-  buscarEspaciosDisponibles(fichaSeleccionada.idFila, fichaSeleccionada.idColumna)
-
-  if (ev.target.classList.contains('rey')) {
-    fichaSeleccionada.esRey = true;
-  }
+  buscarEspaciosDisponibles(
+    fichaSeleccionada.idFila,
+    fichaSeleccionada.idColumna,
+  )
 }
 
 
@@ -276,15 +274,15 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
     newDama.className = 'DamasAbajo'
     ArregloDelTablero[FilaMover][columnaMover] = 2;
   }
-  if (filaMover == 0 || filaMover == 7) {
-    if (fichaSeleccionada.esRey === false) {
-      newDama.classList.add('rey')
-	  fichaSeleccionada.esRey = true;
-    }
-  }
-  if(fichaSeleccionada.esRey == true){
-	  newDama.innerHTML = '<img src="imagenes/corona.png">'
-  }
+  // if (filaMover == 0 || filaMover == 7) {
+  //   if (fichaSeleccionada.esRey === false) {
+  //     newDama.classList.add('rey')
+	//   fichaSeleccionada.esRey = true;
+  //   }
+  // }
+  // if(fichaSeleccionada.esRey == true){
+	//   newDama.innerHTML = '<img src="imagenes/corona.png">'
+  // }
   divPadre.appendChild(newDama)
  
   //ELIMINACION DE LA FICHA ANTIGUA
@@ -346,25 +344,15 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
   var data = {
     type: 'Movimiento_Pieza',
     payload: {
-      Jugador: 'Jugador ' + turno.toString(),
-      from: obtenerFichaSeleccionada,
-      to: fichaSeleccionada.idColumna && fichaSeleccionada.idFila,
+      jugador: turnoText.innerHTML,
+      inicial: divViejo.id,
+      final: divPadre.id,
     },
   };
   SendDataToServer('https://reqres.in/api/login', data);
   console.log(data);
 
 }
-// function obtenerFichaSeleccionada(ev) {
-//   fichaSeleccionada.idFila = parseInt(ev.path[1].id.substring(5, 6))
-//   fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
-
- 
-//   buscarEspaciosDisponibles(
-//     fichaSeleccionada.idFila,
-//     fichaSeleccionada.idColumna,
-//   )
-// }
 
 function quitarEventosClickPosibles(){
   if (fichaSeleccionada.moverIzquierda) {
