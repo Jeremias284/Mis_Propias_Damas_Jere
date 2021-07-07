@@ -341,16 +341,6 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
 
   quitarEventosClickPosibles()
 
-  var data = {
-    type: 'Movimiento_Pieza',
-    payload: {
-      jugador: turnoText.innerHTML,
-      inicial: divViejo.id,
-      final: divPadre.id,
-    },
-  };
-  SendDataToServer('https://reqres.in/api/login', data);
-  console.log(data);
 
 }
 
@@ -442,14 +432,14 @@ function resetearObjeto() {
 agregarEvento()
 
 
-function SendDataToServer(url, data) {
+function enviarServidor(url, datos) {
   fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  })
+      method: 'POST',
+      body: JSON.stringify(datos),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
     .then(function (response) {
       return response.json();
     })

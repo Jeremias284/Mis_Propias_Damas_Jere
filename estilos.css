@@ -12,6 +12,8 @@ body {
 	min-height: 100vh;
 	background-color: #371af3;
 	margin: 0;
+  /* Parte Logon */
+
 }
 
 main {
@@ -264,5 +266,3 @@ footer {
     text-align: center;
     padding-top: 20px;
   }
-
- 
