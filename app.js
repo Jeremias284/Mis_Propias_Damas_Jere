@@ -7,6 +7,7 @@ var FichasAbajo = document.getElementsByClassName('DamasAbajo')
 var jugador1 = document.getElementById('jugador1');
 var jugador2 = document.getElementById('jugador2');
 var turnoText = document.querySelector(".nombreTurno");
+// var arregloVariable = ArregloDelTablero;
 
 var fichaSeleccionada = {
   idFila: null,
@@ -105,7 +106,7 @@ function obtenerFichaSeleccionada(ev) {
   fichaSeleccionada.idFila = parseInt(ev.path[1].id.substring(5, 6))
   fichaSeleccionada.idColumna =  parseInt(ev.path[1].id.substring(11, 12))
 
- 
+
   buscarEspaciosDisponibles(
     fichaSeleccionada.idFila,
     fichaSeleccionada.idColumna,
@@ -130,22 +131,22 @@ function buscarEspaciosDisponibles(Fila, columna) {
     fichaSeleccionada.moverFilaPintar = Fila - 1
   }
 
-  // validar Filas 
+  // validar Filas
   if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7) {
-    
+
     if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === null) {
       fichaSeleccionada.moverDerecha = true
-  
+
       var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarDerecha)
       divPintar.style.backgroundColor = 'gray'
     }
-   
+
     if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === null) {
       fichaSeleccionada.moverIzquierda = true
-      
+
       var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarIzquierda)
       divPintar.style.backgroundColor = 'gray'
-  
+
     }
   }
 
@@ -157,24 +158,24 @@ function comprobarComer() {
   fichaSeleccionada.moverComerIzquierdaPintado = fichaSeleccionada.moverPintarIzquierda - 1
 
   if (turno === 1) {
-    if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7) { 
+    if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7) {
       fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar + 1
       if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === 2 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerDerechaPintado] === null) {
 
         fichaSeleccionada.moverComerDerecha = true
-        
+
         var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
         divPintar.style.backgroundColor = 'gray'
       }
       if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === 2 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerIzquierdaPintado] === null) {
 
         fichaSeleccionada.moverComerIzquierda = true
-        
+
         var divPintar = document.getElementById('Fila-' +  fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerIzquierdaPintado)
         divPintar.style.backgroundColor = 'gray'
       }
-    }  
-    
+    }
+
   } else {
     if (fichaSeleccionada.idColumna >= 0 && fichaSeleccionada.idColumna <= 7 && fichaSeleccionada.idFila >= 0 && fichaSeleccionada.idFila <= 7)  {
       fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar - 1
@@ -182,25 +183,25 @@ function comprobarComer() {
       if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarDerecha] === 1 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerDerechaPintado] === null) {
 
         fichaSeleccionada.moverComerDerecha = true
-        
+
         var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' +fichaSeleccionada.moverComerDerechaPintado)
         divPintar.style.backgroundColor = 'gray'
       }
       if (ArregloDelTablero[fichaSeleccionada.moverFilaPintar][fichaSeleccionada.moverPintarIzquierda] === 1 && ArregloDelTablero[fichaSeleccionada.moverFilaComerPintado][fichaSeleccionada.moverComerIzquierdaPintado] === null) {
 
         fichaSeleccionada.moverComerIzquierda = true
-        
+
         var divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
         divPintar.style.backgroundColor = 'gray'
       }
-    } 
+    }
   }
   agregarClickPosiblesMov()
 }
 
 
   function agregarClickPosiblesMov() {
-    
+
     if (fichaSeleccionada.moverIzquierda) {
       var divMover = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' + fichaSeleccionada.moverPintarIzquierda)
       divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaPintar, fichaSeleccionada.moverPintarIzquierda, "")')
@@ -217,19 +218,19 @@ function comprobarComer() {
       var divMover = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
       divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaComerPintado, fichaSeleccionada.moverComerIzquierdaPintado, "izquierda")')
     }
-  } 
-  
+  }
+
 function EliminarEspaciosPosibles() {
   if (fichaSeleccionada.moverDerecha) {
     var divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarDerecha)
     divPintar.style.backgroundColor = 'black'
   }
-   
+
   if (fichaSeleccionada.moverIzquierda) {
     divPintar = document.getElementById('Fila-' +fichaSeleccionada.moverFilaPintar +'-col-' +fichaSeleccionada.moverPintarIzquierda)
-    divPintar.style.backgroundColor = 'black' 
+    divPintar.style.backgroundColor = 'black'
   }
-  
+
   if (turno === 1) {
       fichaSeleccionada.moverFilaComerPintado = fichaSeleccionada.moverFilaPintar + 1
 
@@ -252,7 +253,7 @@ function EliminarEspaciosPosibles() {
       divPintar = document.getElementById('Fila-' + fichaSeleccionada.moverFilaComerPintado +'-col-' + fichaSeleccionada.moverComerIzquierdaPintado)
       divPintar.style.backgroundColor = 'black'
     }
-    
+
 }
   quitarEvento = true
   quitarEventosClickPosibles()
@@ -284,7 +285,7 @@ function moverFicha(FilaMover, columnaMover, tipoComer) {
 	//   newDama.innerHTML = '<img src="imagenes/corona.png">'
   // }
   divPadre.appendChild(newDama)
- 
+
   //ELIMINACION DE LA FICHA ANTIGUA
   var divViejo = document.getElementById('Fila-' + fichaSeleccionada.idFila +'-col-' +  fichaSeleccionada.idColumna)
   divViejo.innerHTML = ''
@@ -390,7 +391,7 @@ function actualizarPuntos() {
     parrafoPuntosJugador = document.getElementById('puntos-jugador2')
     parrafoPuntosJugador.innerHTML = 13 - FichasArriba.length
   }
-  
+
   if (FichasArriba.length == 1) {
     alert('¡¡Felicitaciones jugador rojo has ganado la partida!!')
   }
@@ -408,7 +409,7 @@ function cambiarTurno(){
     resetearObjeto()
   } else{
     turno--
-    turnoText.innerHTML = 'Turno: Rojo' ; 
+    turnoText.innerHTML = 'Turno: Rojo' ;
     resetearObjeto()
   }
 }
@@ -450,3 +451,4 @@ function enviarServidor(url, datos) {
       console.log(error);
     });
 }
+
