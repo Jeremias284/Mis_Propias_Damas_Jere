@@ -36,6 +36,28 @@ var ArregloDelTablero = [
   [null, 2, null, 2, null, 2, null, 2],
   [2, null, 2, null, 2, null, 2, null],
 ]
+//Estados 
+var servidorURL = 'https://jsonplaceholder.typicode.com/users';
+  // document.getElementById('boton-guardar-partida').addEventListener('click' , guardar);
+  // document.getElementById('boton-cargar-partida').addEventListener('click' , cargar);
+// crearTablero(arregloVariable, true);
+
+var GuardarPartida = document.getElementById('boton-guardar-partida')
+var CargarPartida = document.getElementById('boton-cargar-partida')
+
+GuardarPartida.addEventListener('click', guardarPartida)
+CargarPartida.addEventListener('click', cargarPartida)
+
+function guardarPartida(){
+  localStorage.setItem('Tablero', JSON.stringify(ArregloDelTablero))
+  localStorage.setItem('turno', turno)
+}
+
+function cargarPartida(){
+  ArregloDelTablero = JSON.parse(localStorage.getItem('Tablero'))
+  turno = localStorage.getItem(turno)
+
+}
 
 
 function crearTablero() {
@@ -219,6 +241,17 @@ function comprobarComer() {
       divMover.setAttribute('onClick', 'moverFicha(fichaSeleccionada.moverFilaComerPintado, fichaSeleccionada.moverComerIzquierdaPintado, "izquierda")')
     }
   }
+  function resetearTablero() {
+ 
+    var tablero = document.getElementById('Tablero')
+  
+    tablero.innerHTML = ''
+    quitarEvento = true
+  
+    crearTablero()
+    resetearObjeto()
+  
+  }
 
 function EliminarEspaciosPosibles() {
   if (fichaSeleccionada.moverDerecha) {
@@ -255,10 +288,12 @@ function EliminarEspaciosPosibles() {
     }
 
 }
-  quitarEvento = true
-  quitarEventosClickPosibles()
-  resetearObjeto()
+  // quitarEvento = true
+  // quitarEventosClickPosibles()
+  // resetearObjeto()
 }
+
+
 
 
 function moverFicha(FilaMover, columnaMover, tipoComer) {
